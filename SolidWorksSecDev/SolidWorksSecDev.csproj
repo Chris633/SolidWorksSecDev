@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <SignAssembly>false</SignAssembly>
+    <ApplicationIcon>clet.ico</ApplicationIcon>
+    <StartupObject>SolidWorksSecDev.Program</StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <WarningLevel>5</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NPOI" Version="2.5.2" />
+    <PackageReference Include="Solidworks.Interop.Basic" Version="19.4.0" />
+    <PackageReference Include="SolidWorks.Interop.sldworks" Version="27.3.0" />
+    <PackageReference Include="SolidWorks.Interop.swconst" Version="27.3.0" />
+  </ItemGroup>
+
+</Project>
