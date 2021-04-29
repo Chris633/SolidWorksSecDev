@@ -24,7 +24,7 @@ namespace SolidWorksSecDev
 
         private Form1()
         {
-            var end = "2021-05-01 00:00:00";
+            var end = "2021-05-05 00:00:00";
             var now = DateTime.Now;
             var today2 = new DateTime(now.Year, now.Month, now.Day); //当天的零时零分
             if (DateTime.Parse(end) < today2)
@@ -171,13 +171,14 @@ namespace SolidWorksSecDev
             header.CreateCell(8).SetCellValue("外形尺寸");
             header.CreateCell(9).SetCellValue("规格型号");
             header.CreateCell(10).SetCellValue("名称");
-            header.CreateCell(11).SetCellValue("重量");
-            header.CreateCell(12).SetCellValue("委外方式");
-            header.CreateCell(13).SetCellValue("Bom组别");
-            header.CreateCell(14).SetCellValue("计量单位");
-            header.CreateCell(15).SetCellValue("车间");
-            header.CreateCell(16).SetCellValue("仓库");
-            #endregion
+            header.CreateCell(11).SetCellValue("文件名称");
+            header.CreateCell(12).SetCellValue("重量");
+            header.CreateCell(13).SetCellValue("委外方式");
+            header.CreateCell(14).SetCellValue("Bom组别");
+            header.CreateCell(15).SetCellValue("计量单位");
+            header.CreateCell(16).SetCellValue("车间");
+            header.CreateCell(17).SetCellValue("仓库");
+            #endregion           
 
             st.CreateFreezePane(0, 4, 0, 5);
             return st;
@@ -339,14 +340,14 @@ namespace SolidWorksSecDev
             row.CreateCell(7).SetCellValue(assE.ps);
             row.CreateCell(8).SetCellValue(assE.size);
             row.CreateCell(9).SetCellValue(assE.specification);
-            row.CreateCell(10).SetCellValue(assE.name);
-            row.CreateCell(11).SetCellValue(assE.weight);
-            row.CreateCell(12).SetCellValue(assE.bailment);
-            row.CreateCell(13).SetCellValue(assE.bomlv);
-            row.CreateCell(14).SetCellValue(assE.unit);
-            row.CreateCell(15).SetCellValue(assE.workshop);
-            row.CreateCell(16).SetCellValue(assE.storehouse);
-            row.CreateCell(17).SetCellValue(assE.propName);
+            row.CreateCell(10).SetCellValue(assE.propName);
+            row.CreateCell(11).SetCellValue(assE.name);
+            row.CreateCell(12).SetCellValue(assE.weight);
+            row.CreateCell(13).SetCellValue(assE.bailment);
+            row.CreateCell(14).SetCellValue(assE.bomlv);
+            row.CreateCell(15).SetCellValue(assE.unit);
+            row.CreateCell(16).SetCellValue(assE.workshop);
+            row.CreateCell(17).SetCellValue(assE.storehouse);
             from++;
 
             var enumerator = assE.childrenAss.GetEnumerator();
@@ -373,15 +374,15 @@ namespace SolidWorksSecDev
                 row.CreateCell(7).SetCellValue(kv.Value.ps);
                 row.CreateCell(8).SetCellValue(kv.Value.size);
                 row.CreateCell(9).SetCellValue(kv.Value.specification);
-                row.CreateCell(10).SetCellValue(kv.Value.name);
-                row.CreateCell(11).SetCellValue(kv.Value.weight);
-                row.CreateCell(12).SetCellValue(kv.Value.bailment);
-                row.CreateCell(13).SetCellValue(kv.Value.bomlv);
-                row.CreateCell(14).SetCellValue(kv.Value.unit);
-                row.CreateCell(15).SetCellValue(kv.Value.workshop);
-                row.CreateCell(16).SetCellValue(kv.Value.storehouse);
-                row.CreateCell(17).SetCellValue(kv.Value.propName);
-                from++;
+                row.CreateCell(10).SetCellValue(kv.Value.propName);
+                row.CreateCell(11).SetCellValue(kv.Value.name);
+                row.CreateCell(12).SetCellValue(kv.Value.weight);
+                row.CreateCell(13).SetCellValue(kv.Value.bailment);
+                row.CreateCell(14).SetCellValue(kv.Value.bomlv);
+                row.CreateCell(15).SetCellValue(kv.Value.unit);
+                row.CreateCell(16).SetCellValue(kv.Value.workshop);
+                row.CreateCell(17).SetCellValue(kv.Value.storehouse);
+                from++;            
             }
         }
         private bool preBom(SldWorks swApp)
@@ -608,7 +609,9 @@ namespace SolidWorksSecDev
             var s = swAssy.GetComponentCount(false);
             var fl = new List<ModelDoc2>();
             fl.Add(swModel);
-            nameModelMap[swModel.GetTitle().Substring(0, swModel.GetTitle().LastIndexOf('.'))] = fl;
+            if (swModel.GetTitle().LastIndexOf('.') == -1) nameModelMap[swModel.GetTitle()] = fl;
+            else
+                nameModelMap[swModel.GetTitle().Substring(0, swModel.GetTitle().LastIndexOf('.'))] = fl;
             label1.Text = (int)(((double)progressBar1.Value) / progressBar1.Maximum * 100) + " %/100%";
             progressBar1.PerformStep();
             
@@ -632,10 +635,10 @@ namespace SolidWorksSecDev
             for (var i = 4; i <= st.LastRowNum; i++)
             {
                 var row = st.GetRow(i);
-                if (row == null|| row.GetCell(3) ==null || row.GetCell(10)== null ||row.GetCell(1)==null) continue;
+                if (row == null|| row.GetCell(3) ==null || row.GetCell(11)== null ||row.GetCell(1)==null) continue;
                 string wid = row.GetCell(3).StringCellValue;
                 string parentid = row.GetCell(1).StringCellValue;
-                string name = row.GetCell(10).StringCellValue;
+                string name = row.GetCell(11).StringCellValue;
                 if (set.Contains(name)) continue;
                 set.Add(name);
                 var modellist = nameModelMap[name];
