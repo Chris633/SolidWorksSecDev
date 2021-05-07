@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CPTemplate>
+  <CPSheet>
+    <GroupBox Label="组框" PropName="组框2" DefaultState="Expanded">
+      <Control Label="图号" PropName="图号" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="物料代码" PropName="物料代码" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="装配物料代码" PropName="装配物料代码" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="原材料代码" PropName="原材料代码" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="名称" PropName="名称" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="规格型号" PropName="规格型号" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="外形尺寸" PropName="外形尺寸" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="计量单位" PropName="计量单位" ApplyTo="Config" Type="RadioButton">
+        <Data>
+          <Item Label="件" PropValue="件" />
+          <Item Label="套" PropValue="套" />
+        </Data>
+      </Control>
+      <Control Label="车间" PropName="车间" ApplyTo="Config" Type="ComboBox" UserDefineable="False">
+        <Data Path="" SourceType="List">
+          <Item>下料车间</Item>
+          <Item>焊接车间</Item>
+          <Item>喷漆车间</Item>
+          <Item>装配车间</Item>
+          <Item>-</Item>
+        </Data>
+      </Control>
+      <Control Label="仓库" PropName="仓库" ApplyTo="Config" Type="ComboBox" UserDefineable="False">
+        <Data Path="" SourceType="List">
+          <Item>下料库</Item>
+          <Item>焊接库</Item>
+          <Item>喷漆库</Item>
+          <Item>装配库</Item>
+          <Item>成品库</Item>
+          <Item>外委库</Item>
+          <Item>-</Item>
+        </Data>
+      </Control>
+      <Control Label="BOM组别" PropName="BOM组别" ApplyTo="Config" Type="ComboBox" UserDefineable="False">
+        <Data Path="" SourceType="List">
+          <Item>4</Item>
+          <Item>5</Item>
+          <Item>6</Item>
+          <Item>7</Item>
+          <Item>8</Item>
+          <Item>9</Item>
+          <Item>-</Item>
+        </Data>
+      </Control>
+      <Control Label="备注" PropName="备注" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="版本" PropName="版本" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="重量" PropName="重量" ApplyTo="Config" Type="TextBox" DefaultValue="SW-Mass" Mode="SWProperty" />
+      <Control Label="材料属性" PropName="材料属性" ApplyTo="Config" Type="ComboBox" UserDefineable="False">
+        <Data Path="" SourceType="List">
+          <Item>碳钢材料</Item>
+          <Item>不锈钢材料</Item>
+          <Item>-</Item>
+        </Data>
+      </Control>
+      <Control Label="委外方式" PropName="委外方式" ApplyTo="Config" Type="ComboBox" UserDefineable="False">
+        <Data Path="" SourceType="List">
+          <Item>带料</Item>
+          <Item>不带料</Item>
+          <Item>-</Item>
+        </Data>
+      </Control>
+    </GroupBox>
+  </CPSheet>
+</CPTemplate>

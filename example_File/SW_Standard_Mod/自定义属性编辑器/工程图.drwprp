@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<CPTemplate>
+  <CPSheet>
+    <GroupBox Label="组框" PropName="组框2" DefaultState="Expanded">
+      <Control Label="设计" PropName="设计" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="设计日期" PropName="设计日期" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="校对" PropName="校对" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="校对日期" PropName="校对日期" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="审核" PropName="审核" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="审核日期" PropName="审核日期" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="版本" PropName="版本" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="第几页" PropName="第几页" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+      <Control Label="共几页" PropName="共几页" ApplyTo="Config" Type="TextBox" DefaultValue="" Mode="Text" />
+    </GroupBox>
+  </CPSheet>
+</CPTemplate>
