@@ -414,6 +414,14 @@ namespace SolidWorksSecDev
             var swModel = (ModelDoc2)swApp.ActiveDoc;
             var swAssy = (AssemblyDoc)swModel;
 
+            this.label1.Visible = true;
+            this.label1.Text = "正在解轻化零件..";
+            this.progressBar1.Visible = true;
+            this.progressBar1.Minimum = 0;
+            this.progressBar1.Maximum = 100;
+            this.progressBar1.Value = 0;
+            this.progressBar1.Step = 1;
+
             swAssy.ResolveAllLightweight();
 
             //首个装配体处理
@@ -425,13 +433,7 @@ namespace SolidWorksSecDev
 
             var compList = (object[])swAssy.GetComponents(true);
             
-            this.label1.Visible = true;
-            this.label1.Text = "0%/100%";
-            this.progressBar1.Visible = true;
-            this.progressBar1.Minimum = 0;
             this.progressBar1.Maximum = compList.Length+1;
-            this.progressBar1.Value = 0;
-            this.progressBar1.Step = 1;
 
 
             foreach (var item in compList)
@@ -470,14 +472,13 @@ namespace SolidWorksSecDev
                 label1.Text = (int)(((double)progressBar1.Value) / progressBar1.Maximum * 100) + "%/100%";
                 //if (isLight) swComponent.SetSuppression2((int)swComponentSuppressionState_e.swComponentLightweight);
             }
-
+            label1.Text = "正在加轻化零件..";
             swAssy.LightweightAllResolved();
 
             from = 1;
+            label1.Text = "写入中.." + (int)(((double)progressBar1.Value) / progressBar1.Maximum * 100) + "%/100%";
             traverseExport(assE, st, "", 1);
-
             var fs = new FileStream(@pathForExcel, FileMode.Create, FileAccess.Write);
-            label1.Text = "写入中.."+(int)(((double)progressBar1.Value) / progressBar1.Maximum * 100) + "%/100%";
             wb.Write(fs);
             fs.Close();
 
@@ -545,16 +546,19 @@ namespace SolidWorksSecDev
             swApp.CommandInProgress = true;
             var swModel = (ModelDoc2)swApp.ActiveDoc;
             var swAssy = (AssemblyDoc)swModel;
+
+            this.label1.Visible = true;
+            this.label1.Text = "正在解轻化零件..";
+            this.progressBar1.Visible = true;
+            this.progressBar1.Minimum = 0;
+            this.progressBar1.Maximum = 100;
+            this.progressBar1.Value = 0;
+            this.progressBar1.Step = 1;
+
             swAssy.ResolveAllLightweight();
             var compList = (object[])swAssy.GetComponents(false);
 
-            this.label1.Visible = true;
-            this.label1.Text = "0%/100%";
-            this.progressBar1.Visible = true;
-            this.progressBar1.Minimum = 0;
-            this.progressBar1.Maximum = (compList.Length + 1) * 2+1;
-            this.progressBar1.Value = 0;
-            this.progressBar1.Step = 1;
+            this.progressBar1.Maximum = (compList.Length + 1) * 2 + 1;
 
             Dictionary<string, List<ModelDoc2>> nameModelMap = new Dictionary<string, List<ModelDoc2>>();
             
@@ -564,9 +568,10 @@ namespace SolidWorksSecDev
             if (swModel.GetTitle().LastIndexOf('.') == -1) nameModelMap[swModel.GetTitle()] = fl;
             else
                 nameModelMap[swModel.GetTitle().Substring(0, swModel.GetTitle().LastIndexOf('.'))] = fl;
-            label1.Text = (int)(((double)progressBar1.Value) / progressBar1.Maximum * 100) + " %/100%";
-            progressBar1.PerformStep();
             
+            progressBar1.PerformStep();
+            label1.Text = (int)(((double)progressBar1.Value) / progressBar1.Maximum * 100) + " %/100%";
+
             foreach (Component2 comp in compList)
             {
                 var i = comp.Name2.LastIndexOf('/');
@@ -577,10 +582,13 @@ namespace SolidWorksSecDev
                 {
                     modelList = new List<ModelDoc2>();
                 }
+                //如果是压缩的 就掠过
+                if ((ModelDoc2)comp.GetModelDoc2() == null) continue;
                 modelList.Add((ModelDoc2)comp.GetModelDoc2());
                 nameModelMap[name] = modelList;
-                label1.Text = (int)(((double)progressBar1.Value) / progressBar1.Maximum * 100) + "%/100%";
+                
                 progressBar1.PerformStep();
+                label1.Text = (int)(((double)progressBar1.Value) / progressBar1.Maximum * 100) + "%/100%";
             }
 
             HashSet<string> set = new HashSet<string>();
@@ -604,7 +612,7 @@ namespace SolidWorksSecDev
                     progressBar1.PerformStep();
                 }
             }
-            
+            this.label1.Text = "正在加轻化零件..";
             swAssy.LightweightAllResolved();
             fs.Close();
             this.label1.Visible = false;
