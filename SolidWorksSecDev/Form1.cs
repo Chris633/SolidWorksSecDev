@@ -24,7 +24,7 @@ namespace SolidWorksSecDev
 
         private Form1()
         {
-            var end = "2021-05-05 00:00:00";
+            var end = "2021-06-05 00:00:00";
             var now = DateTime.Now;
             var today2 = new DateTime(now.Year, now.Month, now.Day); //当天的零时零分
             if (DateTime.Parse(end) < today2)
@@ -90,76 +90,28 @@ namespace SolidWorksSecDev
 
             #region 列宽设置
             const int CharSize = 256;
-            st.SetColumnWidth(0, 23 * CharSize);
-            st.SetColumnWidth(1, 22 * CharSize);
-            st.SetColumnWidth(2, 12 * CharSize);
-            st.SetColumnWidth(3, 29 * CharSize);
-            st.SetColumnWidth(4, 29 * CharSize);
-            st.SetColumnWidth(5, 9 * CharSize);
-            st.SetColumnWidth(6, 9 * CharSize);
-            st.SetColumnWidth(7, 30 * CharSize);
-            st.SetColumnWidth(8, 35 * CharSize);
-            st.SetColumnWidth(9, 65 * CharSize);
-            st.SetColumnWidth(10, 61 * CharSize);
-            st.SetColumnWidth(11, 11 * CharSize);
-            st.SetColumnWidth(12, 13 * CharSize);
-            st.SetColumnWidth(13, 9 * CharSize);
-            st.SetColumnWidth(14, 23 * CharSize);
-            st.SetColumnWidth(15, 31 * CharSize);
-            st.SetColumnWidth(16, 16 * CharSize);
-            #endregion
-
-            #region 常规表头
-            var r = st.CreateRow(1);
-            r.HeightInPoints = 33;
-
-            var c = r.CreateCell(0);
-            c.SetCellValue("BOM");
-            var cra = new CellRangeAddress(1, 1, 0, 16);
-            st.AddMergedRegion(cra);
-            var styleTitle = wb.CreateCellStyle();
-            styleTitle.Alignment = HorizontalAlignment.Center;
-            styleTitle.VerticalAlignment = VerticalAlignment.Center;
-            var fontTitle = wb.CreateFont();
-            fontTitle.FontName = "微软雅黑";
-            fontTitle.IsBold = true;
-            fontTitle.FontHeightInPoints = 20;
-            styleTitle.SetFont(fontTitle);
-            c.CellStyle = styleTitle;
-
-            var info = st.CreateRow(2);
-            info.HeightInPoints = 35;
-            info.CreateCell(0).SetCellValue("项目编号");
-            info.CreateCell(3).SetCellValue("项目名称");
-            info.CreateCell(9).SetCellValue("编制:                          审核：                          审批：");
-            var styleInfo = wb.CreateCellStyle();
-            styleInfo.Alignment = HorizontalAlignment.Center;
-            styleInfo.VerticalAlignment = VerticalAlignment.Center;
-            var fontInfo = wb.CreateFont();
-            fontInfo.FontName = "等线";
-            fontInfo.IsBold = true;
-            fontInfo.FontHeightInPoints = 14;
-            styleInfo.SetFont(fontInfo);
-            cra = new CellRangeAddress(2, 2, 1, 2);
-            st.AddMergedRegion(cra);
-            cra = new CellRangeAddress(2, 2, 4, 8);
-            st.AddMergedRegion(cra);
-            cra = new CellRangeAddress(2, 2, 9, 16);
-            st.AddMergedRegion(cra);
-
-            cra = new CellRangeAddress(2, 2, 0, 8);
-            var cellRange = GetCellRange(st, cra);
-            foreach (var ic in cellRange) ic.CellStyle = styleInfo;
-
-            var styleInfoLast = wb.CreateCellStyle();
-            styleInfoLast.Alignment = HorizontalAlignment.Left;
-            styleInfoLast.VerticalAlignment = VerticalAlignment.Center;
-            styleInfoLast.SetFont(fontInfo);
-            info.GetCell(9).CellStyle = styleInfoLast;
+            st.SetColumnWidth(0, 7 * CharSize);
+            st.SetColumnWidth(1, 14 * CharSize);
+            st.SetColumnWidth(2, 7 * CharSize);
+            st.SetColumnWidth(3, 14 * CharSize);
+            st.SetColumnWidth(4, 14 * CharSize);
+            st.SetColumnWidth(5, 4 * CharSize);
+            st.SetColumnWidth(6, 4 * CharSize);
+            st.SetColumnWidth(7, 7 * CharSize);
+            st.SetColumnWidth(8, 14 * CharSize);
+            st.SetColumnWidth(9, 39 * CharSize);
+            st.SetColumnWidth(10, 44 * CharSize);
+            st.SetColumnWidth(11, 49 * CharSize);
+            st.SetColumnWidth(12, 8 * CharSize);
+            st.SetColumnWidth(13, 7 * CharSize);
+            st.SetColumnWidth(14, 7 * CharSize);
+            st.SetColumnWidth(15, 8 * CharSize);
+            st.SetColumnWidth(16, 7 * CharSize);
+            st.SetColumnWidth(17, 8 * CharSize);
             #endregion
 
             #region 每行表头
-            var header = st.CreateRow(3);
+            var header = st.CreateRow(0);
             header.CreateCell(0).SetCellValue("层次");
             header.CreateCell(1).SetCellValue("父项物料代码");
             header.CreateCell(2).SetCellValue("父项数量");
@@ -521,7 +473,7 @@ namespace SolidWorksSecDev
 
             swAssy.LightweightAllResolved();
 
-            from = 4;
+            from = 1;
             traverseExport(assE, st, "", 1);
 
             var fs = new FileStream(@pathForExcel, FileMode.Create, FileAccess.Write);
@@ -632,7 +584,7 @@ namespace SolidWorksSecDev
             }
 
             HashSet<string> set = new HashSet<string>();
-            for (var i = 4; i <= st.LastRowNum; i++)
+            for (var i = 1; i <= st.LastRowNum; i++)
             {
                 var row = st.GetRow(i);
                 if (row == null|| row.GetCell(3) ==null || row.GetCell(11)== null ||row.GetCell(1)==null) continue;
