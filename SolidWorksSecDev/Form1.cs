@@ -24,14 +24,14 @@ namespace SolidWorksSecDev
 
         private Form1()
         {
-            var end = "2021-06-05 00:00:00";
-            var now = DateTime.Now;
-            var today2 = new DateTime(now.Year, now.Month, now.Day); //当天的零时零分
-            if (DateTime.Parse(end) < today2)
-            {
-                MessageBox.Show("请与开发者联系 微信:Chris633 qq:378151018 email:chris63388@outlook.com");
-                return;
-            }
+            //var end = "2021-06-05 00:00:00";
+            //var now = DateTime.Now;
+            //var today2 = new DateTime(now.Year, now.Month, now.Day); //当天的零时零分
+            //if (DateTime.Parse(end) < today2)
+            //{
+            //    MessageBox.Show("请与开发者联系 微信:Chris633 qq:378151018 email:chris63388@outlook.com");
+            //    return;
+            //}
 
             InitializeComponent();
         }
@@ -132,7 +132,7 @@ namespace SolidWorksSecDev
             header.CreateCell(17).SetCellValue("仓库");
             #endregion           
 
-            st.CreateFreezePane(0, 4, 0, 5);
+            st.CreateFreezePane(0, 1, 0, 2);
             return st;
         }
         #endregion
@@ -630,7 +630,7 @@ namespace SolidWorksSecDev
             openFileDialog.Filter = "xlsx files(*.xlsx)|*.xlsx";
             openFileDialog.AddExtension = true;
             openFileDialog.RestoreDirectory = true;
-            if (openFileDialog.ShowDialog() == DialogResult.OK)//注意，此处一定要手动引入System.Window.Forms空间，否则你如果使用默认的DialogResult会发现没有OK属性
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 pathForExcel = openFileDialog.FileName;
             }
@@ -640,15 +640,6 @@ namespace SolidWorksSecDev
             }
 
             childrenFandao(@pathForExcel, swApp);
-
-            //this.label1.Text = "父项导入：0%/100%";
-            //this.progressBar1.Minimum = 0;
-            //this.progressBar1.Maximum = (compList.Length + 1) * 2;
-            //this.progressBar1.Value = 0;
-            //this.progressBar1.Step = 1;
-
-            //label1.Visible = false;
-            //progressBar1.Visible = false;
 
             MessageBox.Show("反导完成！");
             
