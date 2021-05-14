@@ -603,9 +603,15 @@ namespace SolidWorksSecDev
             {
                 var row = st.GetRow(i);
                 if (row == null|| row.GetCell(3) ==null || row.GetCell(11)== null ||row.GetCell(1)==null) continue;
+
                 string wid = row.GetCell(3).StringCellValue;
                 string parentid = row.GetCell(1).StringCellValue;
+                string mid = row.GetCell(1).StringCellValue;
+                string size = row.GetCell(9).StringCellValue;
+                string proname = row.GetCell(10).StringCellValue;
+
                 string name = row.GetCell(11).StringCellValue;
+
                 if (set.Contains(name)) continue;
                 set.Add(name);
                 var modellist = nameModelMap[name];
@@ -615,6 +621,10 @@ namespace SolidWorksSecDev
                     var cpm = model.ConfigurationManager.ActiveConfiguration.CustomPropertyManager;
                     cpm.Set2("物料代码", wid);
                     cpm.Set2("装配物料代码", parentid);
+                    cpm.Set2("原材料代码", mid);
+                    cpm.Set2("规格型号", size);
+                    cpm.Set2("名称", proname);
+
                     label1.Text =  (int)(((double)progressBar1.Value) / progressBar1.Maximum * 100) + "%/100%";
                     progressBar1.PerformStep();
                 }
