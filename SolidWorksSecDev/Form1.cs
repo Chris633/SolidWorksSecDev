@@ -149,7 +149,7 @@ namespace SolidWorksSecDev
             //    isLight = true;
             //    comp.SetSuppression2((int)swComponentSuppressionState_e.swComponentResolved);
             //}
-
+            if (comp.GetModelDoc2() == null) comp.SetSuppression2((int)swComponentSuppressionState_e.swComponentResolved);
             var typeofComp = ((ModelDoc2)comp.GetModelDoc2()).GetType();
 
             if (typeofComp != (int)swDocumentTypes_e.swDocASSEMBLY && typeofComp != (int)swDocumentTypes_e.swDocPART)
@@ -208,6 +208,17 @@ namespace SolidWorksSecDev
             if (r == 0.00) r = Math.Round(num, 3);
             return r == 0.00 ? "0.00" : r.ToString();
         }
+        public static readonly string[] ext = { ".SLDPRT", ".SLDASM", ".sldasm", ".sldprt"};
+            
+        private string fileNameDelExt(string fileName)
+        {
+            var tmp = fileName.Substring(fileName.Length - 7);
+            foreach (string e in ext)
+            {
+                if ( tmp.Equals(e)) return fileName.Substring(0, fileName.Length - 7);
+            }
+            return fileName;
+        }
 
         private void insertAttr(ModelDoc2 cmo, SWEntity entity)
         {
@@ -215,10 +226,7 @@ namespace SolidWorksSecDev
             var cpm = cmo.ConfigurationManager.ActiveConfiguration.CustomPropertyManager;
 
 
-            var fileName = cmo.GetTitle();
-            if (fileName.LastIndexOf('.') == -1) entity.name = fileName;
-            else
-                entity.name = fileName.Substring(0, fileName.LastIndexOf('.'));
+            entity.name = fileNameDelExt(cmo.GetTitle());
 
             entity.amount = 1;
 
@@ -451,6 +459,7 @@ namespace SolidWorksSecDev
                 var filename = swComponent.Name2.Substring(0, swComponent.Name2.LastIndexOf('-'));
 
                 SortedDictionary<string, SWEntity> children;
+                if (swComponent.GetModelDoc2() == null) swComponent.SetSuppression2((int)swComponentSuppressionState_e.swComponentResolved);
                 var typeofComp = ((ModelDoc2)swComponent.GetModelDoc2()).GetType();
 
                 if (typeofComp == (int)swDocumentTypes_e.swDocASSEMBLY)
@@ -565,10 +574,8 @@ namespace SolidWorksSecDev
             var s = swAssy.GetComponentCount(false);
             var fl = new List<ModelDoc2>();
             fl.Add(swModel);
-            if (swModel.GetTitle().LastIndexOf('.') == -1) nameModelMap[swModel.GetTitle()] = fl;
-            else
-                nameModelMap[swModel.GetTitle().Substring(0, swModel.GetTitle().LastIndexOf('.'))] = fl;
-            
+            nameModelMap[fileNameDelExt(swModel.GetTitle())] = fl;
+
             progressBar1.PerformStep();
             label1.Text = (int)(((double)progressBar1.Value) / progressBar1.Maximum * 100) + " %/100%";
 
