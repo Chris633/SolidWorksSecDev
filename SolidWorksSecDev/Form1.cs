@@ -545,6 +545,13 @@ namespace SolidWorksSecDev
             indicatorLightLabel.ForeColor = Color.Red;
             indicatorTextLabel.Text = "未链接";
         }
+        private string getCellStr(IRow row,int i)
+        {
+            var cell = row.GetCell(i);
+            if (cell == null) return "";
+            cell.SetCellType(CellType.String);
+            return cell.StringCellValue;
+        }
 
         private void childrenFandao(string pathForExcel,SldWorks swApp)
         {
@@ -602,13 +609,14 @@ namespace SolidWorksSecDev
             for (var i = 1; i <= st.LastRowNum; i++)
             {
                 var row = st.GetRow(i);
-                if (row == null|| row.GetCell(3) ==null || row.GetCell(11)== null ||row.GetCell(1)==null) continue;
+                if (row == null|| row.GetCell(11)== null) continue;
 
-                string wid = row.GetCell(3).StringCellValue;
-                string parentid = row.GetCell(1).StringCellValue;
-                string mid = row.GetCell(1).StringCellValue;
-                string size = row.GetCell(9).StringCellValue;
-                string proname = row.GetCell(10).StringCellValue;
+
+                string wid = getCellStr(row, 3);
+                string parentid = getCellStr(row, 1);
+                string mid =  getCellStr(row, 4);
+                string size = getCellStr(row, 9);
+                string proname = getCellStr(row, 10);
 
                 string name = row.GetCell(11).StringCellValue;
 
