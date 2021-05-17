@@ -208,14 +208,15 @@ namespace SolidWorksSecDev
             if (r == 0.00) r = Math.Round(num, 3);
             return r == 0.00 ? "0.00" : r.ToString();
         }
-        public static readonly string[] ext = { ".SLDPRT", ".SLDASM", ".sldasm", ".sldprt"};
+        public static readonly string[] ext = { ".sldasm", ".sldprt"};
             
         private string fileNameDelExt(string fileName)
         {
+            if (fileName.Length <= 7) return fileName;
             var tmp = fileName.Substring(fileName.Length - 7);
             foreach (string e in ext)
             {
-                if ( tmp.Equals(e)) return fileName.Substring(0, fileName.Length - 7);
+                if (String.Equals(tmp, e, StringComparison.CurrentCultureIgnoreCase)) return fileName.Substring(0, fileName.Length - 7);
             }
             return fileName;
         }
